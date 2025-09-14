@@ -1,6 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 
+export interface Project {
+  id: number;
+  name: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
 export interface User {
   userId?: number;
   username: string;
@@ -43,7 +51,20 @@ export const api = createApi({
         }
       },
     }),
+    getProjects: build.query<Project[], void>({
+      query: () => "projects",
+      providesTags: ["Projects"],
+    }),
+    createProject: build.mutation<Project, Partial<Project>>({
+      query: (project) => ({
+        url: "projects",
+        method: "POST",
+        body: project,
+      }),
+      invalidatesTags: ["Projects"],
+    }),
   }),
 });
 
-export const { useGetAuthUserQuery } = api;
+export const { useGetAuthUserQuery, useGetProjectsQuery, useCreateProjectMutation } =
+  api;
