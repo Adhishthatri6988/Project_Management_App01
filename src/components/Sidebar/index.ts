@@ -3,12 +3,19 @@
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
 import {
+  AlertCircle,
+  AlertOctagon,
+  AlertTriangle,
   Briefcase,
+  ChevronDown,
+  ChevronUp,
   Home,
+  Layers3,
   LockIcon,
   LucideIcon,
   Search,
   Settings,
+  ShieldAlert,
   User,
   Users,
   X,
@@ -16,9 +23,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const Sidebar = () => {
+  const [showPriority, setShowPriority] = useState(true);
+
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
@@ -75,6 +84,44 @@ const Sidebar = () => {
           <SidebarLink icon={User} label="Users" href="/users" />
           <SidebarLink icon={Users} label="Teams" href="/teams" />
         </nav>
+
+        {/* PRIORITIES LINKS */}
+        <button
+          onClick={() => setShowPriority((prev) => !prev)}
+          className="flex w-full items-center justify-between px-8 py-3 text-gray-500"
+        >
+          <span className="">Priority</span>
+          {showPriority ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
+        </button>
+        {showPriority && (
+          <>
+            <SidebarLink
+              icon={AlertCircle}
+              label="Urgent"
+              href="/priority/urgent"
+            />
+            <SidebarLink
+              icon={ShieldAlert}
+              label="High"
+              href="/priority/high"
+            />
+            <SidebarLink
+              icon={AlertTriangle}
+              label="Medium"
+              href="/priority/medium"
+            />
+            <SidebarLink icon={AlertOctagon} label="Low" href="/priority/low" />
+            <SidebarLink
+              icon={Layers3}
+              label="Backlog"
+              href="/priority/backlog"
+            />
+          </>
+        )}
       </div>
     </div>
   );
