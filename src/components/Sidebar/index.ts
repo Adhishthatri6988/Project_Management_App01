@@ -1,5 +1,7 @@
 "use client";
 
+import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { setIsSidebarCollapsed } from "@/state";
 import {
   Briefcase,
   Home,
@@ -15,8 +17,14 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
+  const isSidebarCollapsed = useAppSelector(
+    (state) => state.global.isSidebarCollapsed,
+  );
+
   const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl
-    transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white w-64
+    transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white
+    ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}
   `;
 
   return (
@@ -27,6 +35,16 @@ const Sidebar = () => {
           <div className="text-xl font-bold text-gray-800 dark:text-white">
             EDLIST
           </div>
+          {isSidebarCollapsed ? null : (
+            <button
+              className="py-3"
+              onClick={() => {
+                dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
+              }}
+            >
+              <X className="h-6 w-6 text-gray-800 hover:text-gray-500 dark:text-white" />
+            </button>
+          )}
         </div>
         {/* NAVBAR LINKS */}
         <nav className="z-10 w-full">
