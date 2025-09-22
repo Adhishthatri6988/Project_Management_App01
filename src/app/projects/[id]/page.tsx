@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import ProjectHeader from "@/app/projects/projectHeader";
 import Board from "../BoardView";
 import List from "../ListView";
-import Timeline from "../TimelineView";
+import Timeline from "../TimeLineView";
 import Table from "../TableView";
 import ModalNewTask from "@/components/ModalNewTask";
 
